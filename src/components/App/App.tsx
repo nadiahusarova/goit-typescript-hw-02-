@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import ImageGallery from '../ImageGallery/ImageGallery';
-// import Loader from '../Loader/Loader'; // Розкоментуй це, якщо використовуєш
+import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import ImageModal from '../ImageModal/ImageModal';
 import axios from 'axios';
 import './App.css';
 import { Image } from '../../types';
-import Loader from '../Loader/Loader';
 
 const ACCESS_KEY = '9vhbMiaLrWG-vmsc6FvETUigSWziqEPsqlj9Ebk_5bk';
 
@@ -29,7 +28,7 @@ const App: React.FC = () => {
       setError(null);
 
       try {
-        const response = await axios.get(
+        const response = await axios.get<{ results: Image[]; total_pages: number }>(
           `https://api.unsplash.com/search/photos?query=${searchTerm}&client_id=${ACCESS_KEY}&page=${page}`
         );
         setImages((prevImages) => [...prevImages, ...response.data.results]);
