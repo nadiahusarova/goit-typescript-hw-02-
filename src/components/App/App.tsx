@@ -8,6 +8,7 @@ import ImageModal from '../ImageModal/ImageModal';
 import axios from 'axios';
 import './App.css';
 import { Image } from '../../types';
+import Loader from '../Loader/Loader';
 
 const ACCESS_KEY = '9vhbMiaLrWG-vmsc6FvETUigSWziqEPsqlj9Ebk_5bk';
 
@@ -66,7 +67,7 @@ const App: React.FC = () => {
   return (
     <div>
       <SearchBar onSubmit={handleSearchSubmit} />
-      {/* {isLoading && <Loader />} */}
+      {isLoading && <Loader />}
       {error && <ErrorMessage />}
       {images.length > 0 && (
         <ImageGallery items={images} onImageClick={handleImageClick} />
