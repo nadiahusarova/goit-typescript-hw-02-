@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from './components/SearchBar/SearchBar';
-import ImageGallery from './components/ImageGallery/ImageGallery';
-import Loader from './components/Loader/Loader';
-import ErrorMessage from './components/ErrorMessage/ErrorMessage';
-import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
-import ImageModal from './components/ImageModal/ImageModal';
+import SearchBar from '../SearchBar/SearchBar';
+import ImageGallery from '../ImageGallery/ImageGallery';
+// import Loader from '../Loader/Loader'; // Розкоментуй це, якщо використовуєш
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
+import ImageModal from '../ImageModal/ImageModal';
 import axios from 'axios';
 import './App.css';
+import { Image } from '../../types';
 
 const ACCESS_KEY = '9vhbMiaLrWG-vmsc6FvETUigSWziqEPsqlj9Ebk_5bk';
 
-export default function App() {
-  const [images, setImages] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(null);
+const App: React.FC = () => {
+  const [images, setImages] = useState<Image[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
 
   useEffect(() => {
     if (!searchTerm) return;
@@ -42,13 +43,13 @@ export default function App() {
     fetchImages();
   }, [searchTerm, page]);
 
-  const handleSearchSubmit = (term) => {
+  const handleSearchSubmit = (term: string) => {
     setSearchTerm(term);
     setImages([]);
     setPage(1);
   };
 
-  const handleImageClick = (image) => {
+  const handleImageClick = (image: Image) => {
     setSelectedImage(image);
   };
 
@@ -65,8 +66,8 @@ export default function App() {
   return (
     <div>
       <SearchBar onSubmit={handleSearchSubmit} />
-      {isLoading && <Loader />}
-      {error && <ErrorMessage message={error} />}
+      {/* {isLoading && <Loader />} */}
+      {error && <ErrorMessage />}
       {images.length > 0 && (
         <ImageGallery items={images} onImageClick={handleImageClick} />
       )}
@@ -78,4 +79,6 @@ export default function App() {
       )}
     </div>
   );
-}
+};
+
+export default App;
